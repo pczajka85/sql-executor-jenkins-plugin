@@ -19,10 +19,16 @@ public class SqlExecutor {
 	
 	//path where .svn dir is
 	private static String PROJECT_PATH;
+	
+	private static String SVN_URL;
 
 	private final Logger logger = Logger.getLogger(SqlExecutor.class.getName());
 	
-	public static void run(String path, String username, String pass) {
+	public static void main(String[] args) {
+	}
+	
+	public static void run(String svnUrl, String path, String username, String pass) {
+		SqlExecutor.SVN_URL = svnUrl;
 		SqlExecutor.PROJECT_PATH = path;
 		SqlExecutor app = new SqlExecutor();
 		app.logger.info("STARTING EXECUTE SQL FILES");
@@ -38,8 +44,7 @@ public class SqlExecutor {
 		Runtime run = Runtime.getRuntime();
 		try {
 			List<File> sqlFiles = new ArrayList<File>();
-			String command = "cd " + PROJECT_PATH;
-			command += "&& svn log --verbose -r HEAD --username "+username+" --password "+pass;
+			String command = "svn log " + SVN_URL + " --verbose -r HEAD --username "+username+" --password "+pass;
 			Process proc = run.exec(new String[]{"/bin/sh", "-c", command});
 			proc.waitFor();
 			String str;
@@ -47,7 +52,7 @@ public class SqlExecutor {
 			while(br.ready()){
 				str = br.readLine();
 				if(str.matches(".*\\.sql$")){
-					File f = new File(PROJECT_PATH + str.replaceFirst(".* /branches", ""));
+					File f = new File(PROJECT_PATH + str.replaceFirst("\\s+.*/branches", "/branches"));
 					sqlFiles.add(f);
 				}
 			}
