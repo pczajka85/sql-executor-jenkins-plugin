@@ -15,6 +15,11 @@ import java.util.logging.Logger;
 
 import org.hibernate.Session;
 
+/**
+ * 
+ * @author Piotr Czajka
+ *
+ */
 public class SqlExecutor {
 	
 	//path where .svn dir is

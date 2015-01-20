@@ -17,6 +17,11 @@ import hudson.model.FreeStyleProject;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
 
+/**
+ * 
+ * @author Piotr Czajka
+ *
+ */
 public class SqlExecutorBuilder extends Builder {
 
 	private final String task;
@@ -37,8 +42,8 @@ public class SqlExecutorBuilder extends Builder {
 		SqlExecutor.run(
 				build.getEnvironment(listener).get("SVN_URL"), 
 				build.getEnvironment(listener).get("WORKSPACE"),
-				"username", 
-				"pass");
+				"pczajka85", 
+				"yo3saHee");
 		return  true;
 	}
 	
