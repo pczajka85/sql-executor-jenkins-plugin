@@ -1,6 +1,7 @@
 package hudson.plugins.sqlexecutor;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import net.sf.json.JSONObject;
@@ -29,9 +30,14 @@ public class SqlExecutorBuilder extends Builder {
 	//TODO let it be jenkins console output's logger
 	private final static Logger logger = Logger.getLogger("SqlExecutorBuilder");
 	
+	private String username = "";
+	private String password = "";
+	
 	@DataBoundConstructor
-	public SqlExecutorBuilder(String task){
+	public SqlExecutorBuilder(String task, final String password, final String username){
 		this.task = task;
+		this.username = username;
+		this.password = password;
 	}
 	
 	@Override
@@ -39,21 +45,34 @@ public class SqlExecutorBuilder extends Builder {
 			BuildListener listener) throws InterruptedException, IOException {
 		
 		logger.info("SQL EXECUTOR Started");
+		
+//		for(Map.Entry<String, String> entry : build.getEnvironment(listener).entrySet()){
+//			logger.info("VAR="+entry.getKey()+" => "+entry.getValue());
+//		}
+		
 		SqlExecutor.run(
 				build.getEnvironment(listener).get("SVN_URL"), 
 				build.getEnvironment(listener).get("WORKSPACE"),
-				"pczajka85", 
-				"yo3saHee");
+				this.username, 
+				this.password);
 		return  true;
 	}
 	
 	public String getTask() {
 		return task;
 	}
-		
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+				
 	@Extension
 	public static class Descriptor extends BuildStepDescriptor<Builder>{
-
+		
 		@SuppressWarnings("rawtypes")
 		@Override
 		public boolean isApplicable(Class<? extends AbstractProject> jobType) {
@@ -68,8 +87,6 @@ public class SqlExecutorBuilder extends Builder {
 		@Override
 		public boolean configure(StaplerRequest req, JSONObject json)
 				throws hudson.model.Descriptor.FormException {
-			
-			logger.info("FORM.REMOTE = "+json.getString("_.remote"));
 			
 			return super.configure(req, json);
 		}
