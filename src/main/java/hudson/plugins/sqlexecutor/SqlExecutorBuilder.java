@@ -11,10 +11,12 @@ import org.kohsuke.stapler.StaplerRequest;
 
 import hudson.Extension;
 import hudson.Launcher;
+import hudson.WebAppMain;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.BuildListener;
 import hudson.model.FreeStyleProject;
+import hudson.plugins.utils.HibernateUtil;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
 
@@ -28,16 +30,29 @@ public class SqlExecutorBuilder extends Builder {
 	private final String task;
 
 	//TODO let it be jenkins console output's logger
-	private final static Logger logger = Logger.getLogger("SqlExecutorBuilder");
+	private final static Logger logger = Logger.getLogger(SqlExecutorBuilder.class.getName());
 	
 	private String username = "";
 	private String password = "";
 	
+	private String hibernateUsername;
+	private String hibernateDialect;
+	private String hibernateDriverClass;
+	private String hibernateUrl;
+	private String hibernatePassword;
+	
 	@DataBoundConstructor
-	public SqlExecutorBuilder(String task, final String password, final String username){
+	public SqlExecutorBuilder(String task, final String password, final String username,
+			final String hibernateUsername, final String hibernateDialect, final String hibernateDriverClass,
+			final String hibernateUrl, final String hibernatePassword){
 		this.task = task;
 		this.username = username;
 		this.password = password;
+		this.hibernateUsername = hibernateUsername;
+		this.hibernateDialect = hibernateDialect;
+		this.hibernateDriverClass = hibernateDriverClass;
+		this.hibernateUrl = hibernateUrl;
+		this.hibernatePassword = hibernatePassword;
 	}
 	
 	@Override
@@ -46,9 +61,11 @@ public class SqlExecutorBuilder extends Builder {
 		
 		logger.info("SQL EXECUTOR Started");
 		
-//		for(Map.Entry<String, String> entry : build.getEnvironment(listener).entrySet()){
-//			logger.info("VAR="+entry.getKey()+" => "+entry.getValue());
-//		}
+		HibernateUtil.setUsername(this.hibernateUsername);
+		HibernateUtil.setDialect(this.hibernateDialect);
+		HibernateUtil.setDriverClass(this.hibernateDriverClass);
+		HibernateUtil.setUrl(this.hibernateUrl);
+		HibernateUtil.setPassword(this.hibernatePassword);
 		
 		SqlExecutor.run(
 				build.getEnvironment(listener).get("SVN_URL"), 
@@ -70,6 +87,26 @@ public class SqlExecutorBuilder extends Builder {
 		return username;
 	}
 				
+	public String getHibernateUsername() {
+		return hibernateUsername;
+	}
+
+	public String getHibernateDialect() {
+		return hibernateDialect;
+	}
+
+	public String getHibernateDriverClass() {
+		return hibernateDriverClass;
+	}
+
+	public String getHibernateUrl() {
+		return hibernateUrl;
+	}
+
+	public String getHibernatePassword() {
+		return hibernatePassword;
+	}
+
 	@Extension
 	public static class Descriptor extends BuildStepDescriptor<Builder>{
 		

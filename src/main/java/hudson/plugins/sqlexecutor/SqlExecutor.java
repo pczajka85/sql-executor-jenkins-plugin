@@ -22,7 +22,6 @@ import org.hibernate.Session;
  */
 public class SqlExecutor {
 	
-	//path where .svn dir is
 	private static String PROJECT_PATH;
 	
 	private static String SVN_URL;

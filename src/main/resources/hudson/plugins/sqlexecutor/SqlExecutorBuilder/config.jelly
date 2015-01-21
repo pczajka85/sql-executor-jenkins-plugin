@@ -10,5 +10,22 @@
     <f:password field="password" />
   </f:entry>
 </f:section>
- 
+
+<f:section title="Database Connection">
+	<f:entry field="hibernateDialect" title="Dialect">
+    	<f:textbox />
+  	</f:entry>
+  	<f:entry field="hibernateDriverClass" title="Driver Class">
+    	<f:textbox />
+  	</f:entry>
+  	<f:entry field="hibernateUrl" title="Url">
+    	<f:textbox />
+  	</f:entry>
+	<f:entry field="hibernateUsername" title="Username">
+    	<f:textbox />
+  	</f:entry>
+  	<f:entry field="hibernatePassword" title="Password">
+    	<f:password />
+  	</f:entry>
+</f:section>
 </j:jelly>
