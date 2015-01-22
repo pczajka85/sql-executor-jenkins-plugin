@@ -51,7 +51,9 @@ public class SqlExecutor {
 		try {
 			List<File> sqlFiles = new ArrayList<File>();
 			String command = "svn log " + SVN_URL + " --verbose -r HEAD --username "+username+" --password "+pass;
-			Process proc = run.exec(new String[]{"/bin/sh", "-c", command});
+//			Process proc = run.exec(new String[]{"/bin/sh", "-c", command});
+			Process proc = run.exec(command);
+			
 			proc.waitFor();
 			String str;
 			BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
