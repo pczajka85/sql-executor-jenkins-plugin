@@ -1,39 +1,6 @@
 # sql-executor-plugin
 
-Przed zbudowaniem projektu powinniśmy mieć skonfigurowane repozytorium jenkinsa w .m2/settings.xml:
-
-<pluginGroups>
-    <pluginGroup>org.jenkins-ci.tools</pluginGroup>
-</pluginGroups>
-
-<profiles>...
-<profile>
-      <id>jenkins</id>
-      <activation>
-        <activeByDefault>true</activeByDefault> <!-- change this to false, if you don't like to have it on per default -->
-      </activation>
-      <repositories>
-        <repository>
-          <id>repo.jenkins-ci.org</id>
-          <url>http://repo.jenkins-ci.org/public/</url>
-        </repository>
-      </repositories>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>repo.jenkins-ci.org</id>
-          <url>http://repo.jenkins-ci.org/public/</url>
-        </pluginRepository>
-      </pluginRepositories>
-    </profile>
-...</profiles>
-
-<mirrors>
-    <mirror>
-      <id>repo.jenkins-ci.org</id>
-      <url>http://repo.jenkins-ci.org/public/</url>
-      <mirrorOf>m.g.o-public</mirrorOf>
-    </mirror>
-</mirrors>
+Przed zbudowaniem projektu powinniśmy mieć skonfigurowane repozytorium jenkinsa w .m2/settings.xml. Przykład w jenkins-settings.xml
 
 Instalacja pluginu:
 
