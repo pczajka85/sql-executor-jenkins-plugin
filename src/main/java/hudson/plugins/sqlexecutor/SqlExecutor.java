@@ -36,6 +36,8 @@ public class SqlExecutor {
 		SqlExecutor.PROJECT_PATH = path;
 		SqlExecutor app = new SqlExecutor();
 		app.logger.info("STARTING EXECUTE SQL FILES");
+		app.logger.info("SVN_URL = "+svnUrl);
+		app.logger.info("PROJECT_PATH = "+path);
 		
 		for(File f : app.getSqlFiles(username, pass)){
 			app.executeSql(f);
@@ -57,6 +59,7 @@ public class SqlExecutor {
 				str = br.readLine();
 				if(str.matches(".*\\.sql$")){
 					File f = new File(PROJECT_PATH + str.replaceFirst("\\s+.*/branches", "/branches"));
+					logger.info("SQL FILE TO EXECUTE = " + f.getAbsolutePath());
 					sqlFiles.add(f);
 				}
 			}
@@ -71,6 +74,11 @@ public class SqlExecutor {
 		return null;
 	}
 	
+	/**
+	 * Reads a file and returns it as a String 
+	 * @param sqlFile
+	 * @return String
+	 */
 	private String readSqlFile(File sqlFile){
 		String line = null;
 		try {
